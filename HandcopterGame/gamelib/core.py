@@ -1,7 +1,7 @@
 class Core(): 
-    playing = 1
+    playing = True
     attempts = 10
-    eventsInLine = 1
+    eventsInLine = True
 
     def __init__(self):
         noMoreEventsOnQueue = 1
@@ -14,7 +14,7 @@ class Core():
                 self.processEvents() #... camera information
                 self.collisionTesting()  #Check for collisions
                 if self.attempts <= 0 :
-                    self.playing = 0
+                    self.playing = False
     
     def drawObjects(self):
         #draw
