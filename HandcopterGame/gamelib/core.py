@@ -18,12 +18,16 @@ class Core():
     
     def DrawObjects(self):
         #draw
+        pass
     
     def SearchForEvents(self):
         #search
+        pass
         
     def ProcessEvents(self):
         #Process
+        pass
     
     def CollisionTesting(self):
         #Collision
+        pass
