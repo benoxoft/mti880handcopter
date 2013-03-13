@@ -1,18 +1,29 @@
-public Class Core{ 
+class Core(): 
+    playing = 1
+    attempts = 10
+    eventsInLine = 1
 
-while playing
-    if no more events on queue then
-        DrawObjects() #Reload the screen
-    end if
-    SearchForEvents() #Search for expired timers
-    if events in line then
-        #Update objects' position and/or acquire...
-        ProcessEvents() #... camera information
-        CollisionTesting()  #Ceck for collisions
-        if attempts <= 0 then
-            playing = false
-        end if
-    end if
-end while
-
-}
+    def __init__(self):
+        noMoreEventsOnQueue = 1
+        while self.playing :
+            if noMoreEventsOnQueue :
+                self.DrawObjects() #Reload the screen
+            self.SearchForEvents() #Search for expired timers
+            if self.eventsInLine :
+                #Update objects' position and/or acquire...
+                self.ProcessEvents() #... camera information
+                self.CollisionTesting()  #Check for collisions
+                if self.attempts <= 0 :
+                    self.playing = 0
+    
+    def DrawObjects(self):
+        #draw
+    
+    def SearchForEvents(self):
+        #search
+        
+    def ProcessEvents(self):
+        #Process
+    
+    def CollisionTesting(self):
+        #Collision
