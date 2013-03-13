@@ -7,27 +7,33 @@ class Core():
         noMoreEventsOnQueue = 1
         while self.playing :
             if noMoreEventsOnQueue :
-                self.DrawObjects() #Reload the screen
-            self.SearchForEvents() #Search for expired timers
+                self.drawObjects() #Reload the screen
+            self.searchForEvents() #Search for expired timers
             if self.eventsInLine :
                 #Update objects' position and/or acquire...
-                self.ProcessEvents() #... camera information
-                self.CollisionTesting()  #Check for collisions
+                self.processEvents() #... camera information
+                self.collisionTesting()  #Check for collisions
                 if self.attempts <= 0 :
                     self.playing = 0
     
-    def DrawObjects(self):
+    def drawObjects(self):
         #draw
         pass
     
-    def SearchForEvents(self):
+    def searchForEvents(self):
         #search
         pass
         
-    def ProcessEvents(self):
+    def processEvents(self):
         #Process
         pass
     
-    def CollisionTesting(self):
+    def collisionTesting(self):
         #Collision
+        pass
+    
+    def calibration(self):
+        pass
+    
+    def createNewElement(self):
         pass
