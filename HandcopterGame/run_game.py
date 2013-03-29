@@ -26,6 +26,9 @@ from gamelib.ui import *
 from gamelib.brain import *
 from gamelib import media
 
+import socket
+import threading
+
 class GameControl:
 
     def __init__(self):
@@ -214,8 +217,8 @@ def main():
                 elif e.key == pygame.K_ESCAPE:
                   g.keepPlaying = False  
 
-        #if g.leftKeyDown:
-        #    mainchar.moveleft(tick)
+        if g.leftKeyDown:
+            mainchar.move.speedy = 0
         #if g.rightKeyDown:
         #    mainchar.moveright(tick)
         if g.upKeyDown:
@@ -224,7 +227,30 @@ def main():
             mainchar.movedown(tick)
         draw(tick)
 
-if __name__ == '__main__':    
+def listen():
+    sock = socket.socket()
+    try:
+        sock.connect(('localhost', 5030))
+    except Exception, e:
+        print e
+    print "Connected!"
+    while g.keepPlaying:
+        s = sock.recv(1024)
+        cmds = s.split("\n")
+        try:
+            print cmds[-2]
+            cmd = float(cmds[-2])
+            g.reset()
+            if cmd < 0:
+                g.downKeyDown = True
+            elif cmd == 0:
+                g.leftKeyDown = True
+            else:
+                g.upKeyDown = True
+        except Exception,e:
+            print e
+        
+if __name__ == '__main__':     
     pygame.init()
 
     #game objects
@@ -253,4 +279,8 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
 
     show_intro()
+
+    t = threading.Thread(target=listen)
+    t.start()       
+
     main()
