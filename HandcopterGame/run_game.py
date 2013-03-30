@@ -45,7 +45,6 @@ class GameControl:
         self.upKeyDown = False
         self.downKeyDown = False
         self.keepPlaying = True
-        self.ghost_add = 0
         
 def show_message(msg):
     draw(0)
@@ -60,13 +59,12 @@ def show_intro():
     draw(1)
     w = Surface((640, 460))
     w.fill(pygame.color.Color('black'))
-    w.blit(logo, (0,0))
     font = media.get_font(16)
     
-    l1 = font.render('Use the arrow keys to move', True, (255,255,255))
-    l2 = font.render('Press <spacebar> to activate your jetpack', True, (255,255,255))
-    l3 = font.render('*** You need your jetpack to move in the air! ***', True, (255,255,255))
-    l4 = font.render('Catch all fairies!' , True, (255,255,255))
+    l1 = font.render('MTI880 Handcopter', True, (255,255,255))
+    l2 = font.render('Open your hand to move up', True, (255,255,255))
+    l3 = font.render('Close your hand to move down', True, (255,255,255))
+    l4 = font.render('Avoid obstacles!' , True, (255,255,255))
     l5 = font.render('Avoid ghosts!', True, (255,255,255))
 
     lspace = font.render('Press <spacebar> to play', True, (255,255,255))
@@ -78,11 +76,11 @@ def show_intro():
     w.blit(l2, (x, 210))
     w.blit(l3, (x, 240))
     w.blit(l4, (x, 290))
-    w.blit(l5, (x, 320))
+    #w.blit(l5, (x, 320))
     
     w.blit(lspace, (30, 380))
     w.blit(lesc, (420, 380))
-    w.blit(lname, (320 - lname.get_width() / 2, 440))
+    #w.blit(lname, (320 - lname.get_width() / 2, 440))
     
     screen.blit(w, (80, 80))    
     pygame.display.update()
@@ -175,6 +173,7 @@ def draw_elements(elements, tick):
 def manage_ghost(tick):
     g.ghost_add += tick
     if g.ghost_add > 2000:
+        print g.ghost_add
         ghost = Ghost(900, random.random() * 400 + 100)
         ghost.brain = GhostBrain(ghost, mainchar)
         ghost.brain.kill_event = ghost_kill
@@ -257,7 +256,7 @@ if __name__ == '__main__':
     #screen = pygame.display.set_mode((800, 600))
     screen = pygame.display.set_mode((800, 600), pygame.HWSURFACE)
 
-    pygame.display.set_caption('Pitfairy Hunter!')
+    pygame.display.set_caption('MTI880 Handcopter!')
     pygame.mouse.set_visible(False)
     
     g = GameControl()
@@ -266,8 +265,6 @@ if __name__ == '__main__':
     mainchar = MainChar()
     mainchar.no_more_life_event = no_more_life
 
-    logo = media.load_image('logo2.png')
-    
     font = media.get_font(20)
 
     ui = GameUI(mainchar)
