@@ -20,6 +20,8 @@ from pygame.rect import Rect
 
 from movement import Movement
 
+import pygame
+
 import media
 import random
 
@@ -38,10 +40,14 @@ class Ghost(Sprite):
 
         if random.randint(0, 2) == 1:        
             self.image = media.load_image('Cone.png')
+            self.rect = self.image.get_rect()
+            self.image = pygame.transform.scale(self.image, (int(self.rect.width*1.5), int(self.rect.height*1.5)))
         else:
             self.image = media.load_image('Trou.png')
+            self.rect = self.image.get_rect()
+            self.image = pygame.transform.scale(self.image, (self.rect.width*2, self.rect.height*2))
+            
         self.rect = self.image.get_rect()
-        
     def update(self, tick):
         self.move.moveleft(tick)
         self.move.calculate_movement(tick)

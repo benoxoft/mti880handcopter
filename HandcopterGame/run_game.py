@@ -188,6 +188,7 @@ def manage_ghost(tick):
 def main():
     
     while g.keepPlaying:
+        listen()
         tick = clock.tick()
         manage_ghost(tick)
         for e in pygame.event.get():
@@ -227,29 +228,35 @@ def main():
         draw(tick)
 
 def listen():
+    try:
+        s = sock.recv(1024)
+    except Exception,e:
+        print e
+        return
+    cmds = s.split("\n")
+    try:
+        #print s
+        cmd = float(cmds[-2])
+        g.reset()
+        if cmd < 0:
+            g.downKeyDown = True
+        elif cmd == 0:
+            g.leftKeyDown = True
+        else:
+            g.upKeyDown = True
+    except Exception,e:
+        print e
+        
+if __name__ == '__main__':   
+    
     sock = socket.socket()
     try:
         sock.connect(('localhost', 5030))
+        sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
     except Exception, e:
         print e
     print "Connected!"
-    while g.keepPlaying:
-        s = sock.recv(1024)
-        cmds = s.split("\n")
-        try:
-            print cmds[-2]
-            cmd = float(cmds[-2])
-            g.reset()
-            if cmd < 0:
-                g.downKeyDown = True
-            elif cmd == 0:
-                g.leftKeyDown = True
-            else:
-                g.upKeyDown = True
-        except Exception,e:
-            print e
-        
-if __name__ == '__main__':     
+
     pygame.init()
 
     #game objects
@@ -276,8 +283,5 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
 
     show_intro()
-
-    t = threading.Thread(target=listen)
-    t.start()       
 
     main()
