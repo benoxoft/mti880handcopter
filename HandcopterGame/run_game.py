@@ -182,6 +182,18 @@ def manage_ghost(tick):
         g.ghost_add = 0
 
     for ghost in levels.level.ghosts:
+        #if pygame.sprite.collide_mask(mainchar, ghost) is not None:
+        #    ghost_kill()
+        #distance = math.sqrt(
+        #    abs(ghost.rect.centerx - mainchar.rect.centerx)**2 +
+        #    abs(ghost.rect.centery - mainchar.rect.centery)**2)
+        #if distance <= 22:
+        #    pass#ghost_kill()            
+        mr = pygame.Rect((mainchar.rect.left + 18, mainchar.rect.top + 14), (mainchar.rect.width - 36, mainchar.rect.height - 28))
+        gr = pygame.Rect((ghost.rect.left + 3, ghost.rect.top + 3), (ghost.rect.width - 6, ghost.rect.height - 6))
+
+        if mr.colliderect(gr):
+            ghost_kill()
         if ghost.move.posx < -60:
             levels.level.ghosts.remove(ghost)
             
@@ -190,7 +202,6 @@ def main():
     while g.keepPlaying:
         listen()
         tick = clock.tick()
-        manage_ghost(tick)
         for e in pygame.event.get():
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_LEFT:
@@ -226,6 +237,7 @@ def main():
         if g.downKeyDown:
             mainchar.movedown(tick)
         draw(tick)
+        manage_ghost(tick)
 
 def listen():
     try:

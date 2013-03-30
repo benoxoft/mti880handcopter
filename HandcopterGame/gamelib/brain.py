@@ -160,8 +160,14 @@ class GhostBrain:
         self.kill_event = None
         
     def update(self, tick):
-        self.move.moveleft(tick/6)
-            
+        self.move.moveleft(tick/2)
+        distance = math.sqrt(
+            abs(self.ghost.rect.centerx - self.mainchar.rect.centerx)**2 +
+            abs(self.ghost.rect.centery - self.mainchar.rect.centery)**2)
+        print distance
+        if distance <= 22:
+            print 'WAAAAAAAA'
+            self.kill_event()            
     def patrol(self):
         self.move.maxspeedx = 100
         self.move.maxspeedy = 100
