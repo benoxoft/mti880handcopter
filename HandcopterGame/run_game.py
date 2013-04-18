@@ -112,6 +112,7 @@ def no_more_life():
     levels.restore_all_levels()
     load_level(levels.get_next_level())
     mainchar.lives = 3
+    mainchar.score = 0
     show_intro()
     
 def load_level(level):
@@ -158,7 +159,7 @@ def draw(tick):
         
     pygame.display.update()
     pygame.time.delay(16)
-
+    
 def draw_elements(elements, tick):
     for element in elements:
         if tick > 0:
@@ -168,18 +169,27 @@ def draw_elements(elements, tick):
                                        element.rect.y - cam.y,
                                        element.rect.w - cam.w,
                                        element.rect.h - cam.h))
+    font = media.get_font(32)
+    l1 = font.render('Score: ' + str(mainchar.score), True, (255,255,255))
+    l2 = font.render('Attempts left: ' + str(mainchar.lives), True, (255,255,255))
+    
+    screen.blit(l1, (60,0))
+    screen.blit(l2, (420,0))
 
 
 def manage_ghost(tick):
     g.ghost_add += tick
-    if g.ghost_add > 2000:
-        print g.ghost_add
-        ghost = Ghost(900, random.random() * 400 + 100)
+    if g.ghost_add > 1500:
+        if random.random() * 2 == 1:
+            factor = 50
+        else:
+            factor = 400
+        ghost = Ghost(900, mainchar.rect.top + (mainchar.rect.height / 2) + (random.random() * factor) - factor/2)
         ghost.brain = GhostBrain(ghost, mainchar)
         ghost.brain.kill_event = ghost_kill
         ghost.move.add(levels.level.boundaries)        
         levels.level.ghosts.add(ghost)
-        g.ghost_add = 0
+        g.ghost_add -= 1800
 
     for ghost in levels.level.ghosts:
         #if pygame.sprite.collide_mask(mainchar, ghost) is not None:
@@ -195,6 +205,7 @@ def manage_ghost(tick):
         if mr.colliderect(gr):
             ghost_kill()
         if ghost.move.posx < -60:
+            mainchar.score += 40
             levels.level.ghosts.remove(ghost)
             
 def main():
@@ -275,7 +286,7 @@ if __name__ == '__main__':
     #screen = pygame.display.set_mode((800, 600))
     screen = pygame.display.set_mode((800, 600), pygame.HWSURFACE)
 
-    pygame.display.set_caption('MTI880 Handcopter!')
+    pygame.display.set_caption('MTI880 Handcar!')
     pygame.mouse.set_visible(False)
     
     g = GameControl()

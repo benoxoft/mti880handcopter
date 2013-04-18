@@ -42,6 +42,7 @@ class MainChar(Sprite):
 
         self.fuel = 10000
         self.lives = 3
+        self.score = 0
         
         self.caught_fairies = Group()
         self.fairies_to_catch = Group()
